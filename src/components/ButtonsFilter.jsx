@@ -18,7 +18,7 @@ const ButtonsFilter = ({ activeButton, handleFilterChange, setShowForm }) => {
           isActive={activeButton === value}
           onClick={() => {
             if (value === "add") {
-              setShowForm(true);  // Usa setShowForm pasado como prop
+              setShowForm(true); 
             } else {
               setShowForm(false);
               handleFilterChange(value);
