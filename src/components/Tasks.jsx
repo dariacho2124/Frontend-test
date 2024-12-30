@@ -1,71 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import ButtonsFilter from "./ButtonsFilter";
 import TaskCard from "./TaskCard";
-import tasksData from "../data";
+import { useTasks } from "./context/TasksContext";
 
 const Tasks = () => {
-  const [tasks, setTasks] = useState(tasksData);
-  const [filter, setFilter] = useState("all");
-  const [activeButton, setActiveButton] = useState("all");
-  const [newTask, setNewTask] = useState({
-    title: "",
-    description: "",
-    dueDate: "",
-    status: "pending",
-  });
-  const [showForm, setShowForm] = useState(false);
-  const [editingTaskId, setEditingTaskId] = useState(null);
-
-  const filteredTasks = tasks.filter(
-    (task) => filter === "all" || task.status === filter
-  );
-
-  const handleFilterChange = (status) => {
-    setFilter(status);
-    setActiveButton(status);
-  };
-
-  const handleAddTask = () => {
-    const newTaskWithId = { ...newTask, id: tasks.length + 1 };
-    setTasks([...tasks, newTaskWithId]);
-    setNewTask({ title: "", dueDate: "", description: "", status: "pending" });
-    setShowForm(false);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewTask((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleCancel = () => {
-    setShowForm(false);
-    setNewTask({ title: "", dueDate: "", description: "", status: "pending" });
-  };
-
-  const handleEditClick = (id) => {
-    setEditingTaskId(editingTaskId === id ? null : id);
-  };
-
-  const handleChangeInput = (e, id) => {
-    const { name, value } = e.target;
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === id ? { ...task, [name]: value } : task
-      )
-    );
-  };
-
-  const handleToggleStatus = (id, newStatus) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === id ? { ...task, status: newStatus } : task
-      )
-    );
-  };
-
-  const handleDeleteClick = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
+  const {
+    filteredTasks,
+    activeButton,
+    handleFilterChange,
+    showForm,
+    setShowForm,
+    newTask,
+    handleInputChange,
+    handleAddTask,
+    handleCancel,
+    editingTaskId,
+    handleEditClick,
+    handleChangeInput,
+    handleToggleStatus,
+    handleDeleteClick,
+  } = useTasks();
 
   return (
     <div className="flex flex-col sm:flex-row">
@@ -73,12 +27,14 @@ const Tasks = () => {
         <ButtonsFilter
           activeButton={activeButton}
           handleFilterChange={handleFilterChange}
-          setShowForm={setShowForm} // Pasa setShowForm aquí
+          setShowForm={setShowForm}
         />
       </div>
 
       <div className="w-full sm:w-8/12 p-4 bg-gray-200">
-        <div className="text-3xl text-purple-600 font-bold mt-4 mb-10">Tasks</div>
+        <div className="text-3xl text-purple-600 font-bold mt-4 mb-10">
+          Tasks Manager
+        </div>
         {showForm ? (
           <div className="mb-4">
             <input

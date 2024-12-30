@@ -1,7 +1,10 @@
 import React from "react";
 import FilterButton from "./FilterButton";
+import { useTasks } from "./context/TasksContext";
 
-const ButtonsFilter = ({ activeButton, handleFilterChange, setShowForm }) => {
+const ButtonsFilter = () => {
+  const { activeButton, setShowForm, setFilter, setActiveButton } = useTasks();
+
   const filterButtons = [
     { label: "Add Task", value: "add" },
     { label: "All Tasks", value: "all" },
@@ -18,10 +21,11 @@ const ButtonsFilter = ({ activeButton, handleFilterChange, setShowForm }) => {
           isActive={activeButton === value}
           onClick={() => {
             if (value === "add") {
-              setShowForm(true); 
+              setShowForm(true);
             } else {
               setShowForm(false);
-              handleFilterChange(value);
+              setFilter(value);
+              setActiveButton(value);
             }
           }}
         />
