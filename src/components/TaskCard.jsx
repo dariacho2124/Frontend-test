@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePen,faTrash  } from '@fortawesome/free-solid-svg-icons';
 const TaskCard = ({
     task,
     onEditClick,
@@ -21,7 +23,8 @@ const TaskCard = ({
           task.title
         )}
       </div>
-      <div className="text-sm text-gray-500">
+      <div className="text-sm text-blue-500 mt-2 mb-2">{task.status}</div>
+      <div className="text-sm text-purple-600">
         {isEditing ? (
           <input
             type="date"
@@ -34,7 +37,6 @@ const TaskCard = ({
           task.dueDate
         )}
       </div>
-      <div className="text-sm text-gray-700 mt-2">Status: {task.status}</div>
       <div className="text-sm text-gray-700 mt-2">
         {isEditing ? (
           <textarea
@@ -51,7 +53,7 @@ const TaskCard = ({
         {isEditing ? (
           <button 
             onClick={() => onEditClick(task.id)}
-            className="bg-yellow-500 text-white w-40 h-12 rounded-full text-white p-2 mr-2"
+            className="bg-purple-600 text-white w-[130px] h-10 rounded-full text-white p-2 mr-2"
           >
             Save
           </button>
@@ -59,7 +61,7 @@ const TaskCard = ({
           <>
             <button
               onClick={() => onToggleStatus(task.id, "completed")}
-              className="bg-green-500 text-white w-40 h-10 rounded-full text-white  mr-2"
+              className="bg-green-500 text-white w-40 h-10 rounded text-white  mr-2"
             >
               Mark as Completed
             </button>
@@ -67,14 +69,16 @@ const TaskCard = ({
         ) : null}
         <button
           onClick={() => onEditClick(task.id)}
-          className="bg-blue-500 text-white w-[100px] h-10 rounded-full text-white p-2 mr-2"
+          className="bg-blue-500 text-white w-[120px] h-10 rounded-full text-white p-2 mr-2"
         >
+          <FontAwesomeIcon className="mr-2" icon={faFilePen} />
           Edit
         </button>
         <button
           onClick={() => onDeleteClick(task.id)}
-          className="bg-red-500 text-white w-[100px] h-10 rounded-full text-white p-2 mr-2"
+          className="bg-red-500 text-white w-[120px] h-10 rounded-full text-white p-2 mr-2"
         >
+          <FontAwesomeIcon className="mr-2" icon={faTrash} />
           Delete
         </button>
       </div>

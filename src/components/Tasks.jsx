@@ -2,6 +2,8 @@ import React from "react";
 import ButtonsFilter from "./ButtonsFilter";
 import TaskCard from "./TaskCard";
 import { useTasks } from "./context/TasksContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileCirclePlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Tasks = () => {
   const {
@@ -20,6 +22,14 @@ const Tasks = () => {
     handleToggleStatus,
     handleDeleteClick,
   } = useTasks();
+
+  const handleAddTaskClick = () => {
+    handleAddTask();
+  };
+
+  const handleCancelClick = () => {
+    handleCancel();
+  };
 
   return (
     <div className="flex flex-col sm:flex-row">
@@ -59,34 +69,45 @@ const Tasks = () => {
               placeholder="Task Description"
               className="mb-2 p-2 w-full border border-gray-300 rounded"
             />
-            <div className="flex justify-between">
-              <button
-                onClick={handleAddTask}
-                className="bg-blue-500 w-[140px] text-white p-2 rounded"
-              >
-                Add Task
-              </button>
-              <button
-                onClick={handleCancel}
-                className="bg-red-500 w-[140px] text-white p-2 rounded"
-              >
-                Cancel
-              </button>
+            <div>
+              <div className="flex justify-between">
+                <button
+                  onClick={handleAddTaskClick}
+                  className="bg-blue-500 w-[140px] text-white p-2 rounded"
+                >
+                  <FontAwesomeIcon className="mr-2" icon={faFileCirclePlus} />
+                  Add Task
+                </button>
+
+                <button
+                  onClick={handleCancelClick}
+                  className="bg-red-500 w-[140px] text-white p-2 rounded"
+                >
+                  <FontAwesomeIcon className="mr-2" icon={faTrash} />
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         ) : (
           <div>
-            {filteredTasks.map((task) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                isEditing={task.id === editingTaskId}
-                onEditClick={handleEditClick}
-                onDeleteClick={handleDeleteClick}
-                onToggleStatus={handleToggleStatus}
-                onChangeInput={(e) => handleChangeInput(e, task.id)}
-              />
-            ))}
+            {filteredTasks.length > 0 ? (
+              filteredTasks.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  isEditing={task.id === editingTaskId}
+                  onEditClick={handleEditClick}
+                  onDeleteClick={handleDeleteClick}
+                  onToggleStatus={handleToggleStatus}
+                  onChangeInput={(e) => handleChangeInput(e, task.id)}
+                />
+              ))
+            ) : (
+              <div className="text-center text-gray-500">
+                No tasks available
+              </div>
+            )}
           </div>
         )}
       </div>
